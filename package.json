@@ -20,8 +20,10 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
     "express": "^4.16.3",
+    "path": "^0.12.7",
     "phantom": "^4.0.12",
     "phantomjs": "^2.1.7",
-    "request": "^2.85.0"
+    "request": "^2.85.0",
+    "scrape-it": "^5.0.4"
   }
 }
