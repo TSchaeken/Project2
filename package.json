@@ -19,11 +19,14 @@
   "homepage": "https://github.com/TSchaeken/Project2#readme",
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
+    "dotenv": "^5.0.1",
     "express": "^4.16.3",
-    "path": "^0.12.7",
-    "phantom": "^4.0.12",
-    "phantomjs": "^2.1.7",
-    "request": "^2.85.0",
-    "scrape-it": "^5.0.4"
+    "express-handlebars": "^3.0.0",
+    "express-session": "^1.15.6",
+    "mysql2": "^1.5.3",
+    "passport": "^0.4.0",
+    "passport-google-oauth20": "^1.0.0",
+    "scrape-it": "^5.0.4",
+    "sequelize": "^4.37.6"
   }
 }
