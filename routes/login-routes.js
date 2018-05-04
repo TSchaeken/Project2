@@ -2,7 +2,7 @@ const router = require('express').Router();
 const passport = require('../passportGoogle.js');
 
 router.use(require('express-session')({
-  secret: 'keyboard cat', 
+  secret: 'whatdoesthisevendo', 
   resave: true, 
   saveUninitialized: true 
 }));
