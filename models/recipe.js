@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     instruction: DataTypes.STRING,
     ingredients: DataTypes.STRING,
-    time: DataTypes.STRING
+    time: DataTypes.STRING,
   }, {});
   Recipe.associate = function(models) {
     Recipe.belongsTo(models.User, {
