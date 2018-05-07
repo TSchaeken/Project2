@@ -1,13 +1,14 @@
 <div class="container">
   <h1 class="display-3">{{userName}}'s Recipes</h1>
   <br>
-  
+  <div id="alerts"></div>
+
   {{#if isThisUser}}
   <form id="form">
     <div class="form-group">
       <label>Add recipe</label>
       <div class="input-group">
-        <input type="input" id="url-input" class="form-control" placeholder="Enter website">
+        <input type="input" id="url-input" class="form-control" placeholder="Enter website" autofocus>
         <div class="input-group-append">
           <input type="submit" class="btn btn-primary">
         </div>
@@ -60,6 +61,13 @@
 
 {{#section 'script'}}
   <script type="text/javascript">
+    let failAlert = $(
+      `<div class="alert alert-warning alert-dismissible fade show" role="alert">
+        Failed to add recipe.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>`);
 
     $(document).on('submit', '#form', (event) => {
       event.preventDefault();
@@ -72,9 +80,9 @@
       }).then(res => {
         // location.reload();
       }).fail((jqXHR, textStatus) => {
-        console.log('hi');
-        console.log(jqXHR.status);
-      })
+        $('#alerts').append(failAlert);
+        setTimeout(() => $('.alert').alert('close'), 3000);
+      });
       
       $('#url-input').val('');
     });

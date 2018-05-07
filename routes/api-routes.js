@@ -3,6 +3,13 @@ const router = require('express').Router();
 const db = require('../models');
 const scrape = require('../scripts/scrape.js');
 
+router.get('/api/scrape', (req, res) => {
+  // res.json({url:req.query.url});
+  scrape(req.query.url)
+    .then(data => res.json(data))
+    .catch(err => res.status(404).send(err));
+});
+
 router.get('/api/user', (req, res) =>{
   db.User.findAll()
     .then(users => res.json(users));
@@ -39,6 +46,7 @@ router.post('/api/recipe', (req, res) => {
   let url = req.body.url;
   let UserId = req.user.id;
   let recipeEntry;
+  
   db.Recipe
     .findOrCreate({ 
       where: {url}
