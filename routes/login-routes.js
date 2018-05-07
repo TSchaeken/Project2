@@ -1,6 +1,6 @@
 'use strict';
 const router = require('express').Router();
-const passport = require('../passportGoogle.js');
+const passport = require('../scripts/passportGoogle.js');
 
 router.use(require('express-session')({
   secret: 'whatdoesthisevendo', 
@@ -24,6 +24,11 @@ router.get('/login/google/return',
     // console.log(req.user);
     res.redirect('/user');
   });
+
+router.get('/logout', (req, res) => {
+  req.logout();
+  res.redirect('/');
+});
 
 router.get('/profile', (req, res) => {
   res.json(req.user);

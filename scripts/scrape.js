@@ -20,7 +20,7 @@ function allRecipes(link) {
       listItem: ".list-ingredients-2"
     }
   }).then(({ data, response }) => {
-    console.log(`Status Code: ${response.statusCode}`);
+    // console.log(`Status Code: ${response.statusCode}`);
     const recipe = {
       name: data.name,
       image: data.image,
@@ -140,6 +140,7 @@ function Scrape(url) {
   }
   else {
     console.log("Not supported.");
+    return Promise.reject('Not supported.');
   }
 }
 
