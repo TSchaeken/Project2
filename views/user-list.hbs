@@ -1,5 +1,6 @@
 <div class="container">
-  <br><br><br><br>
+  <h1 class="display-3">{{userName}}'s Recipes</h1>
+  <br>
   
   {{#if isThisUser}}
   <form id="form">
@@ -11,7 +12,6 @@
           <input type="submit" class="btn btn-primary">
         </div>
       </div>
-      {{!-- <small class="form-text text-muted">We'll never share your email with anyone else.</small> --}}
     </div>
   </form>
   {{/if}}
@@ -20,12 +20,10 @@
 
     <div class="card-columns">
       {{#each recipes}}
-      <div class="card" style="width: 20rem;">
+      <div class="card">
         <img class="card-img-top" src="{{img}}" data-id="{{id}}">
         <div class="card-body">
           <h5 class="card-title">{{title}}</h5>
-          {{!-- <h6 class="card-subtitle mb-2 text-muted"></h6> --}}
-          {{!-- <p class="card-text">{{ingredients}}</p> --}}
           <a href="{{url}}" target="_blank" class="card-link">Website</a>
         </div>
       </div>
@@ -34,6 +32,29 @@
 
   </div>
 
+</div>
+
+{{!-- modal --}}
+<div class="modal fade" id="recipe-modal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal-title">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h6>Ingredients</h6>
+        <ul id="ingredients"></ul>
+        <h6>Directions</h6>
+        <ol id="directions"></ol>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 
@@ -49,9 +70,11 @@
         contentType: 'application/json',
         data: JSON.stringify({url})
       }).then(res => {
-        // console.log(res);
-        location.reload();
-      });
+        // location.reload();
+      }).fail((jqXHR, textStatus) => {
+        console.log('hi');
+        console.log(jqXHR.status);
+      })
       
       $('#url-input').val('');
     });
@@ -63,7 +86,19 @@
         method: 'GET',
         contentType: 'application/json',
       }).then(res => {
-        console.log(res);
+        $('#modal-title').text(res.title);
+        let ingredients = $('#ingredients');
+        let directions = $('#directions');
+
+        res.ingredients.forEach(step => {
+          ingredients.append($(`<li>${step}</li>`));
+        });
+        
+        res.directions.forEach(step => {
+          directions.append($(`<li>${step}</li>`));
+        });
+
+        $('#recipe-modal').modal('toggle');
       });
     });
   </script>

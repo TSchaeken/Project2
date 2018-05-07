@@ -25,6 +25,11 @@ router.get('/login/google/return',
     res.redirect('/user');
   });
 
+router.get('/logout', (req, res) => {
+  req.logout();
+  res.redirect('/');
+});
+
 router.get('/profile', (req, res) => {
   res.json(req.user);
 });
