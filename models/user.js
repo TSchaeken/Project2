@@ -10,10 +10,7 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   User.associate = function(models) {
-    User.hasMany(models.Recipe, {
-      onDelete: 'CASCADE'
-    });
-    // associations can be defined here
+    User.belongsToMany(models.Recipe, {through: 'UserRecipes'});
   };
   return User;
 };

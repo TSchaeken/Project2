@@ -1,3 +1,4 @@
+'use strict';
 const PORT = process.env.PORT || 8080;
 
 const path = require('path');
@@ -23,6 +24,8 @@ app.use(express.json());
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.use(require('./routes/login-routes.js'));
+app.use(require('./routes/api-routes.js'));
+app.use(require('./routes/user-routes.js'));
 
 app.get('/', (req, res) => {
   res.render('index', {});
