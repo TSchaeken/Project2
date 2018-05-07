@@ -1,0 +1,56 @@
+<div class="container">
+  <br><br><br><br>
+  
+  {{#if isThisUser}}
+  <form id="form">
+    <div class="form-group">
+      <label>Add recipe</label>
+      <div class="input-group">
+        <input type="input" id="url-input" class="form-control" placeholder="Enter website">
+        <div class="input-group-append">
+          <input type="submit" class="btn btn-primary">
+        </div>
+      </div>
+      {{!-- <small class="form-text text-muted">We'll never share your email with anyone else.</small> --}}
+    </div>
+  </form>
+  {{/if}}
+  
+  <div>
+    <div class="card-columns">
+      {{#each recipes}}
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+          <p class="card-text">{{url}}</p>
+          <a href="{{url}}" class="card-link">Website</a>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+
+</div>
+
+
+{{#section 'script'}}
+  <script type="text/javascript">
+
+    $(document).on('submit', '#form', (event) => {
+      event.preventDefault();
+      let url = $('#url-input').val();
+      $.ajax({
+        url: '/api/recipe',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({url})
+      }).then(res => {
+        console.log(res);
+        // location.reload();
+      });
+      
+      $('#url-input').val('');
+    });
+  </script>
+{{/section}}
