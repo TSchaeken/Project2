@@ -7,6 +7,8 @@ router.get('/user', (req, res) => {
     res.redirect('/login');
     return;
   }
+
+
   res.redirect('/user/'+ req.user.id);
 });
 
@@ -20,6 +22,7 @@ router.get('/user/:id', (req, res) => {
     res.render('user-list', {recipes, isThisUser});
   }).catch(err => {
     res.status(404).send(err);
+
   });  
 });
 
