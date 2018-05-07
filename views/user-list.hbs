@@ -20,12 +20,13 @@
 
     <div class="card-columns">
       {{#each recipes}}
-      <div class="card" style="width: 18rem;">
+      <div class="card" style="width: 20rem;">
+        <img class="card-img-top" src="{{img}}" data-id="{{id}}">
         <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-          <p class="card-text">{{url}}</p>
-          <a href="{{url}}" class="card-link">Website</a>
+          <h5 class="card-title">{{title}}</h5>
+          {{!-- <h6 class="card-subtitle mb-2 text-muted"></h6> --}}
+          {{!-- <p class="card-text">{{ingredients}}</p> --}}
+          <a href="{{url}}" target="_blank" class="card-link">Website</a>
         </div>
       </div>
       {{/each}}
@@ -48,11 +49,22 @@
         contentType: 'application/json',
         data: JSON.stringify({url})
       }).then(res => {
-        console.log(res);
-        // location.reload();
+        // console.log(res);
+        location.reload();
       });
       
       $('#url-input').val('');
+    });
+
+    $(document).on('click', '.card-img-top', function(event) {
+      let id = $(this).data('id');
+      $.ajax({
+        url: '/api/recipe/' + id,
+        method: 'GET',
+        contentType: 'application/json',
+      }).then(res => {
+        console.log(res);
+      });
     });
   </script>
 {{/section}}

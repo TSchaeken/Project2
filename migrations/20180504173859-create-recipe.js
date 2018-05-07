@@ -14,14 +14,17 @@ module.exports = {
       url: {
         type: Sequelize.STRING
       },
-      instruction: {
+      img: {
         type: Sequelize.STRING
       },
       ingredients: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
+      },
+      directions: {
+        type: Sequelize.TEXT
       },
       time: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       createdAt: {
         allowNull: false,

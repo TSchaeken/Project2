@@ -1,6 +1,6 @@
 'use strict';
 const router = require('express').Router();
-const passport = require('../passportGoogle.js');
+const passport = require('../scripts/passportGoogle.js');
 
 router.use(require('express-session')({
   secret: 'whatdoesthisevendo', 
