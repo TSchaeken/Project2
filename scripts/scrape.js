@@ -20,7 +20,7 @@ function allRecipes(link) {
       listItem: ".list-ingredients-2"
     }
   }).then(({ data, response }) => {
-    console.log(`Status Code: ${response.statusCode}`);
+    // console.log(`Status Code: ${response.statusCode}`);
     const recipe = {
       name: data.name,
       image: data.image,
@@ -59,6 +59,7 @@ function foodNetwork(link) {
       listItem: ".o-Ingredients__m-Body"
     }
   }).then(({ data, response }) => {
+    console.log(typeof(data.ingredients))
     const recipe = {
       name: data.name,
       image: "https:" + data.image,
@@ -70,16 +71,13 @@ function foodNetwork(link) {
             .filter(item => item.length > 0)
         )
       ),
-      ingredients: data.ingredients[0]
-        .split("\n")
-        .map(item => item.trim())
-        .filter(item => item.length > 0),
+      ingredients: checkContent(data.ingredients[0]),
       directions: data.steps
         .split("\n")
         .map(item => item.trim())
         .filter(item => item.length > 0)
     };
-    console.log(recipe);
+    const {ingredients: recipeIngredients = "No listed ingredients."} = recipe;
     return recipe;
   });
 }
@@ -105,21 +103,17 @@ function tasteOfHome(link) {
   }).then(({ data, response }) => {
     const recipe = {
       name: data.name,
-      image: "https:" + data.image,
+      image: data.image,
       time: data.time
         .split("\n")
         .map(item => item.trim())
         .filter(item => item.length > 0),
-      ingredients: data.ingredients[0]
-        .split("\n")
-        .map(item => item.trim())
-        .filter(item => item.length > 0),
+      ingredients: checkContent(data.ingredients[0]),
       directions: data.steps
         .split("\n")
         .map(item => item.trim())
         .filter(item => item.length > 0)
     };
-    console.log(recipe);
     return recipe;
   });
 }
@@ -129,18 +123,27 @@ function Scrape(url) {
   if (addr === "allrecipes") {
     const rec = allRecipes(url);
     return rec;
-  }
-  else if (addr === "foodnetwork") {
+  } else if (addr === "foodnetwork") {
     const rec = foodNetwork(url);
     return rec;
-  } 
-  else if (addr === "tasteofhome"){
+  } else if (addr === "tasteofhome") {
     const rec = tasteOfHome(url);
-    return rec
-  }
-  else {
+    return rec;
+  } else {
     console.log("Not supported.");
+    return Promise.reject("Not supported.");
   }
 }
+
+function checkContent(e) {
+  if (typeof e == "undefined") {
+    const msg = "No available ingredients";
+    return msg;
+  }
+    return e.split("\n")
+    .map(item => item.trim())
+    .filter(item => item.length > 0)
+}
+
 
 module.exports = Scrape;
