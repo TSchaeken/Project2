@@ -22,7 +22,10 @@
     <div class="card-columns">
       {{#each recipes}}
       <div class="card">
-        <img class="card-img-top" src="{{img}}" data-id="{{id}}">
+        <img class="card-img-top" src="{{img}}" data-id="{{id}}" 
+          data-title="{{{title}}}"
+          data-directions="{{{directions}}}"
+          data-ingredients="{{{ingredients}}}">
         <div class="card-body">
           <h5 class="card-title">{{title}}</h5>
           <a href="{{url}}" target="_blank" class="card-link">Website</a>
