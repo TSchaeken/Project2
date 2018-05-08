@@ -7,7 +7,7 @@ router.get('/user', (req, res) => {
     res.redirect('/login');
     return;
   }
-  res.redirect('/user/'+ req.user.id);
+  res.redirect('/user/' + req.user.id);
 });
 
 router.get('/user/:id', (req, res) => {
