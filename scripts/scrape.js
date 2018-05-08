@@ -106,7 +106,7 @@ function tasteOfHome(link) {
   }).then(({ data, response }) => {
     const recipe = {
       name: data.name,
-      image: "https:" + data.image,
+      image: data.image,
       time: data.time
         .split("\n")
         .map(item => item.trim())
