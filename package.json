@@ -29,6 +29,7 @@
     "passport-google-oauth20": "^1.0.0",
     "scrape-it": "^5.0.4",
     "sequelize": "^4.37.7",
+    "sequelize-cli": "^4.0.0",
     "validator": "^10.1.0"
   }
 }
