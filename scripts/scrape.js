@@ -59,6 +59,7 @@ function foodNetwork(link) {
       listItem: ".o-Ingredients__m-Body"
     }
   }).then(({ data, response }) => {
+    console.log(data)
     const recipe = {
       name: data.name,
       image: "https:" + data.image,
@@ -70,16 +71,16 @@ function foodNetwork(link) {
             .filter(item => item.length > 0)
         )
       ),
-      ingredients: data.ingredients[0]
-        .split("\n")
-        .map(item => item.trim())
-        .filter(item => item.length > 0),
+      ingredients:
+        data.ingredients[0]
+          .split("\n")
+          .map(item => item.trim())
+          .filter(item => item.length > 0) || "no ingredients listed",
       directions: data.steps
         .split("\n")
         .map(item => item.trim())
         .filter(item => item.length > 0)
     };
-    console.log(recipe);
     return recipe;
   });
 }
@@ -129,19 +130,26 @@ function Scrape(url) {
   if (addr === "allrecipes") {
     const rec = allRecipes(url);
     return rec;
-  }
-  else if (addr === "foodnetwork") {
+  } else if (addr === "foodnetwork") {
     const rec = foodNetwork(url);
     return rec;
-  } 
-  else if (addr === "tasteofhome"){
+  } else if (addr === "tasteofhome") {
     const rec = tasteOfHome(url);
-    return rec
-  }
-  else {
+    return rec;
+  } else {
     console.log("Not supported.");
-    return Promise.reject('Not supported.');
+    return Promise.reject("Not supported.");
   }
 }
 
 module.exports = Scrape;
+
+// const { name: recipeName = "No listed recipe name." } = recipe;
+// const { image: recipeImage = "No image available." } = recipe;
+// const {
+//   time: recipeTime = "No listed cook time, keep an eye on it."
+// } = recipe;
+// const {
+//   ingredients: recipeIngredients = "No listed ingredients."
+// } = recipe;
+// const { directions: recipeDirections = "No listed directions." } = recipe;

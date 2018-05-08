@@ -59,6 +59,7 @@ router.post('/api/recipe', (req, res) => {
       res.status(200).send('Added');
     })
     .catch(err => {
+      console.log(err)
       if(recipeEntry) recipeEntry.destroy();
       res.status(404).send(err);
     });

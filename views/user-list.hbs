@@ -70,11 +70,11 @@
         contentType: 'application/json',
         data: JSON.stringify({url})
       }).then(res => {
-        // location.reload();
+        location.reload();
       }).fail((jqXHR, textStatus) => {
         console.log('hi');
         console.log(jqXHR.status);
-      })
+      });
       
       $('#url-input').val('');
     });
