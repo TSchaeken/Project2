@@ -16,7 +16,7 @@
     </div>
   </form>
   {{/if}}
-  
+
   <div>
 
     <div class="card-columns">
@@ -34,6 +34,13 @@
   </div>
 
 </div>
+
+<footer class="footer">
+  <div class="container">
+    <button id="loginBtn" type="button" class="btn btn-secondary" onclick="location.href = '/logout'">Log out</button>
+  </div>
+</footer>
+
 
 {{!-- modal --}}
 <div class="modal fade" id="recipe-modal" tabindex="-1">
@@ -60,54 +67,53 @@
 
 
 {{#section 'script'}}
-  <script type="text/javascript">
-    let failAlert = $(
-      `<div class="alert alert-warning alert-dismissible fade show" role="alert">
+<script type="text/javascript">
+  let failAlert = $(
+    `<div class="alert alert-warning alert-dismissible fade show" role="alert">
         Failed to add recipe.
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>`);
 
-    $(document).on('submit', '#form', (event) => {
-      event.preventDefault();
-      let url = $('#url-input').val();
-      $.ajax({
-        url: '/api/recipe',
-        method: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({url})
-      }).then(res => {
-        location.reload();
-      }).fail((jqXHR, textStatus) => {
-        $('#alerts').append(failAlert);
-        setTimeout(() => $('.alert').alert('close'), 3000);
-      });
-      
-      $('#url-input').val('');
+  $(document).on('submit', '#form', (event) => {
+    event.preventDefault();
+    let url = $('#url-input').val();
+    $.ajax({
+      url: '/api/recipe',
+      method: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify({ url })
+    }).then(res => {
+      location.reload();
+    }).fail((jqXHR, textStatus) => {
+      $('#alerts').append(failAlert);
+      setTimeout(() => $('.alert').alert('close'), 3000);
     });
 
-    $(document).on('click', '.card-img-top', function(event) {
-      let id = $(this).data('id');
-      $.ajax({
-        url: '/api/recipe/' + id,
-        method: 'GET',
-        contentType: 'application/json',
-      }).then(res => {
-        $('#modal-title').text(res.title);
-        let ingredients = $('#ingredients');
-        let directions = $('#directions');
+    $('#url-input').val('');
+  });
 
-        res.ingredients.forEach(step => {
-          ingredients.append($(`<li>${step}</li>`));
-        });
-        
-        res.directions.forEach(step => {
-          directions.append($(`<li>${step}</li>`));
-        });
+  $(document).on('click', '.card-img-top', function (event) {
+    let id = $(this).data('id');
+    $.ajax({
+      url: '/api/recipe/' + id,
+      method: 'GET',
+      contentType: 'application/json',
+    }).then(res => {
+      $('#modal-title').text(res.title);
+      let ingredients = $('#ingredients');
+      let directions = $('#directions');
 
-        $('#recipe-modal').modal('toggle');
+      res.ingredients.forEach(step => {
+        ingredients.append($(`<li>${step}</li>`));
       });
+
+      res.directions.forEach(step => {
+        directions.append($(`<li>${step}</li>`));
+      });
+
+      $('#recipe-modal').modal('toggle');
     });
-  </script>
-{{/section}}
+  });
+</script> {{/section}}
