@@ -2,6 +2,7 @@
 const router = require('express').Router();
 const db = require('../models');
 const scrape = require('../scripts/scrape.js');
+const validator = require('validator');
 
 router.get('/api/scrape', (req, res) => {
   // res.json({url:req.query.url});
@@ -12,20 +13,20 @@ router.get('/api/scrape', (req, res) => {
 
 router.get('/api/user', (req, res) =>{
   db.User.findAll()
-    .then(users => res.json(users));
+    .then(users => res.json(users))
+    .catch(err => res.status(404).send(err));
 });
 
 router.get('/api/recipe', (req, res) => {
   db.Recipe.findAll()
-    .then(recipes => res.json(recipes));
+    .then(recipes => res.json(recipes))
+    .catch(err => res.status(404).send(err));
 });
 
 router.get('/api/recipe/:id', (req, res) => {
-  db.Recipe.findById(req.params.id).then(recipe => {
-    res.json(recipe);
-  }).catch(err => {
-    res.status(404).send(err);
-  });
+  db.Recipe.findById(req.params.id)
+    .then(recipe => res.json(recipe))
+    .catch(err => res.status(404).send(err));
 })
 
 function scrapeToRecipe(url, recipe) {
@@ -44,6 +45,9 @@ function scrapeToRecipe(url, recipe) {
 // {"url": url}
 router.post('/api/recipe', (req, res) => {
   let url = req.body.url;
+  if(!validator.isURL(url)) 
+    res.status(400).send('Invalid url');
+
   let UserId = req.user.id;
   let recipeEntry;
   
@@ -67,9 +71,8 @@ router.post('/api/recipe', (req, res) => {
       res.status(200).send('Added');
     })
     .catch(err => {
-      console.log(err)
-      if(recipeEntry) recipeEntry.destroy();
-      res.status(404).send(err);
+      if(recipeEntry) recipeEntry.destroy(); // clean up created recipe
+      res.status(500).send(err);
     });
 });
 
