@@ -59,7 +59,7 @@ function foodNetwork(link) {
       listItem: ".o-Ingredients__m-Body"
     }
   }).then(({ data, response }) => {
-    console.log(data)
+    console.log(typeof(data.ingredients))
     const recipe = {
       name: data.name,
       image: "https:" + data.image,
@@ -71,16 +71,13 @@ function foodNetwork(link) {
             .filter(item => item.length > 0)
         )
       ),
-      ingredients:
-        data.ingredients[0]
-          .split("\n")
-          .map(item => item.trim())
-          .filter(item => item.length > 0) || "no ingredients listed",
+      ingredients: checkContent(data.ingredients[0]),
       directions: data.steps
         .split("\n")
         .map(item => item.trim())
         .filter(item => item.length > 0)
     };
+    const {ingredients: recipeIngredients = "No listed ingredients."} = recipe;
     return recipe;
   });
 }
@@ -111,16 +108,12 @@ function tasteOfHome(link) {
         .split("\n")
         .map(item => item.trim())
         .filter(item => item.length > 0),
-      ingredients: data.ingredients[0]
-        .split("\n")
-        .map(item => item.trim())
-        .filter(item => item.length > 0),
+      ingredients: checkContent(data.ingredients[0]),
       directions: data.steps
         .split("\n")
         .map(item => item.trim())
         .filter(item => item.length > 0)
     };
-    console.log(recipe);
     return recipe;
   });
 }
@@ -142,14 +135,15 @@ function Scrape(url) {
   }
 }
 
-module.exports = Scrape;
+function checkContent(e) {
+  if (typeof e == "undefined") {
+    const msg = "No available ingredients";
+    return msg;
+  }
+    return e.split("\n")
+    .map(item => item.trim())
+    .filter(item => item.length > 0)
+}
 
-// const { name: recipeName = "No listed recipe name." } = recipe;
-// const { image: recipeImage = "No image available." } = recipe;
-// const {
-//   time: recipeTime = "No listed cook time, keep an eye on it."
-// } = recipe;
-// const {
-//   ingredients: recipeIngredients = "No listed ingredients."
-// } = recipe;
-// const { directions: recipeDirections = "No listed directions." } = recipe;
+
+module.exports = Scrape;
