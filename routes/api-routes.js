@@ -46,7 +46,10 @@ function scrapeToRecipe(url, recipe) {
 router.post('/api/recipe', (req, res) => {
   let url = req.body.url;
   if(!validator.isURL(url)) 
-    res.status(400).send('Invalid url');
+    return res.status(400).send('Invalid url');
+
+  if(!req.user)
+    return res.status(401).send('Not logged in');
 
   let UserId = req.user.id;
   let recipeEntry;
