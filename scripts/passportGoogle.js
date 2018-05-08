@@ -3,11 +3,12 @@ require('dotenv').config();
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const db = require('../models/index.js');
-
+const callbackURL = process.env.NODE_ENV === 'production' ? 
+  'https://cook-book-96847.herokuapp.com/login/google/return' : 'http://localhost:8080/login/google/return';
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:8080/login/google/return"
+    callbackURL: callbackURL
   },
   function(accessToken, refreshToken, profile, cb) {
     db.User
